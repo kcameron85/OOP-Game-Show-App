@@ -8,6 +8,23 @@ class Phrase {
     }
 
     addPhraseToDisplay() {
+        const str = this.phrase;
+        const strToArray = str.split("");
+        const phraseUl = document.querySelector('#phrase ul');
+        
+        for(let i = 0; i < strToArray.length; i++) {
+            if (strToArray[i] !== " ") {
+                const phraseLi = document.createElement('li');
+                phraseUl.appendChild(phraseLi);
+                phraseLi.innerHTML = `${strToArray[i]}`;
+                phraseLi.classList = `hide letter ${strToArray[i]}`;
+            } else {
+                const phraseLi = document.createElement('li');
+                phraseUl.appendChild(phraseLi);
+                phraseLi.innerHTML = ` `;
+                phraseLi.classList = `space`;
+            }
+        }
 
     }
 
@@ -20,3 +37,6 @@ class Phrase {
     }
 
 }
+
+const gamePhrase = new Phrase('Three word Phrase');
+gamePhrase.addPhraseToDisplay();
