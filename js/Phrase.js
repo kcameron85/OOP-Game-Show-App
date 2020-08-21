@@ -4,11 +4,11 @@
 
 class Phrase {
     constructor (phrase) {
-        this.phrase = phrase.toLowerCase();
+        this.phrase = phrase;
     }
 
     addPhraseToDisplay() {
-        const str = this.phrase;
+        const str = this.phrase.toLowerCase();
         const strToArray = str.split("");
         const phraseUl = document.querySelector('#phrase ul');
         
@@ -29,14 +29,31 @@ class Phrase {
     }
 
     checkLetter(){
+        const keyboardButtons = document.getElementsByClassName('key');
+        const thePhrase = document.getElementsByClassName('letter');
 
+        for (let i = 0; i < keyboardButtons.length; i++) {
+            keyboardButtons[i].addEventListener('click', (e) => {
+                for (let i = 0; i < thePhrase.length; i++) {
+                    if (e.target.innerText === thePhrase[i].innerText) {
+                       this.showMatchedLetter(e.target.innerText, thePhrase);
+                    }
+                }
+            });
+        }
     }
 
-    showMatchedLetter(){
+    showMatchedLetter(guess, thePhrase){
 
+        for (let i = 0; i < thePhrase.length; i++) {
+            if (guess === thePhrase[i].innerText) {
+                thePhrase[i].classList.remove('hide');
+                thePhrase[i].classList.add('show');
+            }
+        }
     }
 
 }
 
-const gamePhrase = new Phrase('Three word Phrase');
-gamePhrase.addPhraseToDisplay();
+// const checkValue = new Phrase();
+// checkValue.checkLetter();

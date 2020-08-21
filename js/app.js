@@ -3,15 +3,11 @@
  * app.js */
 
 const newGame = new Game();
+const gamePhrase = new Phrase('Awesome Sauce');
 const startGameButton = document.getElementById('btn__reset');
-const keyboardButtons = document.getElementsByClassName('key');
 
 startGameButton.addEventListener('click', () => {
     newGame.startGame();
+    gamePhrase.addPhraseToDisplay();
 });
 
-for (i = 0; i < keyboardButtons.length; i++) {
-    keyboardButtons[i].addEventListener('click', () => {
-        newGame.handleInteraction();
-    });
-}

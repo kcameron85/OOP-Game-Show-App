@@ -8,7 +8,8 @@
     }
 
     startGame() {
-
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'none';
     }
 
     getRandomPhrase() {
