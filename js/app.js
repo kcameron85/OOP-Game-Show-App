@@ -13,26 +13,40 @@
  * handleInteraction() method being called.
  */
 
-const newGame = new Game();
 
 const overlay = document.getElementById('overlay');
 const startGameButton = document.getElementById('btn__reset');
 const keyboardButtons = document.getElementsByClassName('key');
 const thePhrase = document.getElementsByClassName('letter');
-const hearts = document.querySelectorAll('img[src="images/liveHeart.png"]');
+const hearts = document.querySelectorAll('#scoreboard img');
 const winLoseMessage = document.getElementById('game-over-message');
 const phraseContainer = document.querySelector('#phrase ul');
 
 
 startGameButton.addEventListener('click', () => {
+    phraseContainer.innerHTML = '';
+
+    for (let i = 0; i < hearts.length; i++) {
+        hearts[i].src = 'images/liveHeart.png'
+    }
+
+    for (let i = 0; i < keyboardButtons.length; i++) {
+      keyboardButtons[i].disabled = false;
+      keyboardButtons[i].className = 'key';
+    }
+
+    const newGame = new Game();
     newGame.startGame();
+
+    for (let i = 0; i < keyboardButtons.length; i++) {
+
+        keyboardButtons[i].addEventListener('click', () => {
+            newGame.handleInteraction();
+        });
+    }
 });
 
-for (let i = 0; i < keyboardButtons.length; i++) {
-    keyboardButtons[i].addEventListener('click', () => {
-        newGame.handleInteraction();
-    });
-}
+
 
 
 

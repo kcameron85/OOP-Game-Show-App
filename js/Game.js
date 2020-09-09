@@ -18,14 +18,13 @@
 
     constructor() {
       this.missed = 0; //tracks missed guesses. initial value = 0
-      this.phrase =
+      this.phrases =
           [
-              {phrase : 'Head over Heals'},
-              {phrase : 'Playing Possum'},
-              {phrase : 'Break the Ice'},
-              {phrase : 'Go for Broke'},
-              {phrase : 'Wild Goose Chase'}
-      
+              new Phrase ('Head over Heals'),
+              new Phrase ('Playing Possum'),
+              new Phrase ('Break the Ice'),
+              new Phrase ('Go for Broke'),
+              new Phrase ('Wild Goose Chase')
           ]; //an array of 5 phrase objects.
       this.activePhrase = null; //holds the active game phrase. Initial value = null.
     }
@@ -37,36 +36,8 @@
      * phrase. It also adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object. Also handles resetting the game board after a loss or a win.
      */
 
-    startGame() {
-       /**
-       * If Game is over, resetting game board
-       */
-        if(this.missed === 5 || this.checkForWin()) {
-        this.missed = 0;
-        //removes disabled attribute from keys
-        for(let i = 0; i < keyboardButtons.length; i++) {
-          keyboardButtons[i].disabled = false;
-        }
-        
-        //removes li elements from HTML
-        phraseContainer.innerHTML = '';
-
-        //checks to see if the chosen or wrong classes are set and removes them
-        for(let i = 0; i < keyboardButtons.length; i++) {
-          if(keyboardButtons[i].classList.contains('chosen')) {
-            keyboardButtons[i].classList.remove('chosen');
-          } else if (keyboardButtons[i].classList.contains('wrong')) {
-            keyboardButtons[i].classList.remove('wrong');
-          }
-        }
-        //replaces lostheart.png with liveheart.png
-        for (let i = 0; i < hearts.length; i++) {
-            hearts[i].src = 'images/liveheart.png';
-        }
-        
-      }
-
-      /**
+    startGame() {      
+            /**
        * hides the start screen overlay.
        */
       overlay.style.display = 'none';
@@ -74,14 +45,16 @@
       /**
        * Calls the getRandomPhrase() method, and sets the activePhrase property with the chosen phrase. 
        */
-      const startThePhrase = this.getRandomPhrase();
-      this.activePhrase = startThePhrase;
+      this.activePhrase = this.getRandomPhrase();
+      console.log(this.activePhrase);
+
 
       /**
        * Adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object
        */
-      const addPhrase = new Phrase(this.activePhrase);
-      addPhrase.addPhraseToDisplay();
+      this.activePhrase.addPhraseToDisplay();
+      
+
     }
 
     /**
@@ -96,8 +69,9 @@
        * Uses randomly generated number to select of the five phrases in the object array and returns it.
        */
       const randomNumber = Math.floor(Math.random() * Math.floor(5));
-      const phraseArray = this.phrase.map(phrase => phrase.phrase);
-      return phraseArray[randomNumber];
+      const phraseArray = this.phrases[randomNumber];
+      
+      return phraseArray;
 
     }
 
@@ -114,9 +88,6 @@
      */
 
     handleInteraction() {
-      
-      const activeGamePhrase = this.activePhrase.toLowerCase();
-      const checkPhrase = new Phrase(activeGamePhrase);
 
       /**
        * Checking to see if the button clicked by the player matches a letter in the phrase, and then directing the game based 
@@ -131,26 +102,33 @@
        * call the gameOver() method.
        */ 
 
-      if (checkPhrase.checkLetter()) {
+      if (this.activePhrase.checkLetter()) {
+        console.log(this.activePhrase);
 
         event.target.classList.add('chosen');
-        checkPhrase.showMatchedLetter();
+        this.activePhrase.showMatchedLetter();
+
+        /* 
+        * Disables the selected letter’s onscreen keyboard button.
+        */ 
+       event.target.disabled = true;
+
         
         if( this.checkForWin() ) {
           this.gameOver();
         }
 
-      } else if (! checkPhrase.checkLetter()) {
+      } else if (! this.activePhrase.checkLetter()) {
 
         event.target.classList.add('wrong');
         this.removeLife();
 
-      } 
+        /* 
+        * Disables the selected letter’s onscreen keyboard button.
+        */ 
+        event.target.disabled = true;
 
-      /* 
-      * Disables the selected letter’s onscreen keyboard button.
-      */ 
-      event.target.disabled = true;
+      } 
 
     }
 
@@ -168,11 +146,9 @@
       this.missed += 1;
 
       //removes a heart(life) if player selects wrong letter
-      for (let i = hearts.length - 1; i >= 0; i--) {
         if (this.missed !== 0 && hearts[hearts.length - this.missed].src !== undefined ) {
-          hearts[hearts.length - this.missed].src = 'images/lostheart.png';
+          hearts[hearts.length - this.missed].src = 'images/lostHeart.png';
         }
-      }
 
       //end the game if all lives have been used.
       if (this.missed === 5) {
@@ -209,6 +185,9 @@
      */
 
     gameOver() {
+      //resets the number of missed to zero
+      this.missed = 0;
+
       if(this.missed === 5) {
         overlay.style.display = 'flex';
         winLoseMessage.innerHTML = 'You lose! Please Play Again.'
@@ -222,3 +201,23 @@
 
  }
 
+//  startGame() {
+
+
+//  /**
+//   * hides the start screen overlay.
+//   */
+//  overlay.style.display = 'none';
+
+//  /**
+//   * Calls the getRandomPhrase() method, and sets the activePhrase property with the chosen phrase. 
+//   */
+//  const startThePhrase = this.getRandomPhrase();
+//  this.activePhrase = startThePhrase;
+
+//  /**
+//   * Adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object
+//   */
+//  const addPhrase = new Phrase(this.activePhrase);
+//  addPhrase.addPhraseToDisplay();
+// }
