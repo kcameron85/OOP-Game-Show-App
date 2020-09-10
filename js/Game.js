@@ -37,7 +37,7 @@
      */
 
     startGame() {      
-            /**
+      /**
        * hides the start screen overlay.
        */
       overlay.style.display = 'none';
@@ -46,8 +46,6 @@
        * Calls the getRandomPhrase() method, and sets the activePhrase property with the chosen phrase. 
        */
       this.activePhrase = this.getRandomPhrase();
-      console.log(this.activePhrase);
-
 
       /**
        * Adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object
@@ -103,7 +101,6 @@
        */ 
 
       if (this.activePhrase.checkLetter()) {
-        console.log(this.activePhrase);
 
         event.target.classList.add('chosen');
         this.activePhrase.showMatchedLetter();
@@ -185,8 +182,6 @@
      */
 
     gameOver() {
-      //resets the number of missed to zero
-      this.missed = 0;
 
       if(this.missed === 5) {
         overlay.style.display = 'flex';
@@ -197,27 +192,29 @@
         winLoseMessage.innerHTML = 'You Win! Great Job!'
         overlay.className = 'win';
       }
+
+    }
+
+    /**
+     * This method resets the game properties and variables that are required for the game to function properly when playing additional times. Essentually, it resets your hearts(lives), removes the old phrase from the board in preperation for the new one, removes the disable property from previously selected keyboard keys, and resets the keyboard keys class list to just "key", removing the "chosen" and "wrong" classes.
+     */
+
+    resetGame() {
+      //resets the number of missed to zero
+      this.missed = 0;
+
+      phraseContainer.innerHTML = '';
+
+      for (let i = 0; i < hearts.length; i++) {
+          hearts[i].src = 'images/liveHeart.png'
+      }
+  
+      for (let i = 0; i < keyboardButtons.length; i++) {
+        keyboardButtons[i].disabled = false;
+        keyboardButtons[i].className = 'key';
+      }
+
     }
 
  }
 
-//  startGame() {
-
-
-//  /**
-//   * hides the start screen overlay.
-//   */
-//  overlay.style.display = 'none';
-
-//  /**
-//   * Calls the getRandomPhrase() method, and sets the activePhrase property with the chosen phrase. 
-//   */
-//  const startThePhrase = this.getRandomPhrase();
-//  this.activePhrase = startThePhrase;
-
-//  /**
-//   * Adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object
-//   */
-//  const addPhrase = new Phrase(this.activePhrase);
-//  addPhrase.addPhraseToDisplay();
-// }

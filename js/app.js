@@ -12,7 +12,7 @@
  * individual keyboard button. Clicking the space between and around the onscreen keyboard buttons should not result in the 
  * handleInteraction() method being called.
  */
-
+let newGame;
 
 const overlay = document.getElementById('overlay');
 const startGameButton = document.getElementById('btn__reset');
@@ -24,27 +24,18 @@ const phraseContainer = document.querySelector('#phrase ul');
 
 
 startGameButton.addEventListener('click', () => {
-    phraseContainer.innerHTML = '';
-
-    for (let i = 0; i < hearts.length; i++) {
-        hearts[i].src = 'images/liveHeart.png'
-    }
-
-    for (let i = 0; i < keyboardButtons.length; i++) {
-      keyboardButtons[i].disabled = false;
-      keyboardButtons[i].className = 'key';
-    }
-
-    const newGame = new Game();
+    newGame = new Game();
+    newGame.resetGame();
     newGame.startGame();
-
-    for (let i = 0; i < keyboardButtons.length; i++) {
-
-        keyboardButtons[i].addEventListener('click', () => {
-            newGame.handleInteraction();
-        });
-    }
 });
+
+for (let i = 0; i < keyboardButtons.length; i++) {
+    newGame = new Game();
+
+    keyboardButtons[i].addEventListener('click', () => {
+        newGame.handleInteraction();
+    });
+}
 
 
 
