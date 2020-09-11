@@ -25,12 +25,13 @@ const phraseContainer = document.querySelector('#phrase ul');
 
 startGameButton.addEventListener('click', () => {
     newGame = new Game();
-    newGame.resetGame();
+    
+    newGame.resetGame(); 
+
     newGame.startGame();
 });
 
 for (let i = 0; i < keyboardButtons.length; i++) {
-    newGame = new Game();
 
     keyboardButtons[i].addEventListener('click', () => {
         newGame.handleInteraction();

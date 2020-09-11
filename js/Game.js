@@ -36,7 +36,8 @@
      * phrase. It also adds that phrase to the board by calling the addPhraseToDisplay() method on the active Phrase object. Also handles resetting the game board after a loss or a win.
      */
 
-    startGame() {      
+    startGame() {  
+
       /**
        * hides the start screen overlay.
        */
@@ -62,11 +63,10 @@
      */
 
     getRandomPhrase() {
-
-      /**
+       /**
        * Uses randomly generated number to select of the five phrases in the object array and returns it.
        */
-      const randomNumber = Math.floor(Math.random() * Math.floor(5));
+      const randomNumber = Math.floor(Math.random() * Math.floor(this.phrases.length));
       const phraseArray = this.phrases[randomNumber];
       
       return phraseArray;
@@ -102,6 +102,7 @@
 
       if (this.activePhrase.checkLetter()) {
 
+        
         event.target.classList.add('chosen');
         this.activePhrase.showMatchedLetter();
 
